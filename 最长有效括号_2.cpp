@@ -4,51 +4,31 @@
 #include <vector>
 using namespace std;
 
-bool modify(string &s) {
-    bool flag = false;
-    for (int i = 0; i < s.size() - 1; i++) {
-        if (s[i] == '(') {
-            for (int j = i + 1; j < s.size(); j++) {
-                if (s[j] == '(') {
-                    break;
-                }
-                if (s[j] == ')') {
-                    s[i] = ' ';
-                    s[j] = ' ';
-
-                    while (i - 1 >= 0 && j + 1 <= s.size() - 1) {
-                        if (s[i - 1] == '(' && s[j + 1] == ')') {
-                            s[--i] = ' ';
-                            s[++j] = ' ';
-                            flag = true;
-                        }
-                        else{
-                          break;
-                        }
-                    };
-                    i = j + 1;
-                    flag = true;
-                    break;
-                }
-            }
-        }
-    }
-    return flag;
-}
-
 int longestValidParentheses(string s) {
     if (s.size() < 2)
         return 0;
-    while (modify(s))
-        ;
     int max_length = 0;
-    int length_sub = 0;
-    for (int i = 0; i < s.size(); i++) {
-        if (s[i] == ' ') {
-            length_sub++;
-            max_length = max(length_sub, max_length);
-        } else {
-            length_sub = 0;
+    vector<int> dp(s.size());
+
+    for (int i = 1; i < s.size(); i++) {
+        if (s[i] == ')') {
+            if (s[i - 1] == '(') {
+              int tmp = i - 2 >= 0 ? dp[i - 2] : 0;
+              dp[i] = 2 + tmp;
+              max_length = max(max_length, dp[i]);
+              //cout << " dp[" << i << "] = " << dp[i];
+            }
+            if(s[i-1]==')'){
+              if(i>dp[i-1]){
+                int tmp = i - 1 - dp[i - 1];
+                if(tmp>=0&&s[tmp]=='('){
+                  int tmp2 = tmp - 1 >= 0 ? tmp - 1 : 0;
+                  dp[i] = 2 + dp[i - 1] + dp[tmp2];
+                  max_length = max(max_length, dp[i]);
+                  //cout << " dp[" << i << "] = " << dp[i];
+                }
+              }
+            }
         }
     }
     return max_length;
@@ -56,8 +36,7 @@ int longestValidParentheses(string s) {
 
 int main() {
     vector<string> testdata = {
-        "))))())()()()()(((()",
-        "()(((((((())(()",
+        "()(())",
     };
     for (string s : testdata) {
         cout << longestValidParentheses(s) << endl;
