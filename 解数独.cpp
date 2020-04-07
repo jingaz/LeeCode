@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <iostream>
 #include <stack>
 #include <unordered_set>
@@ -76,8 +75,7 @@ scanning:
         tmp_status.pop_back();
         status.push(sta);
         if (resolve(status)) {
-            return true;
-        }
+            return true;        }
     }
     return false;
 }
