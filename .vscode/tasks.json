@@ -12,7 +12,7 @@
                 "-g",    // 生成和调试有关的信息
                 "-Wall", // 开启额外警告
                 "-static-libgcc",     // 静态链接libgcc，一般都会加上
-                "-std=c11",
+                "-std=c++17",
                 "-lpthread"
             ],
             "options": {
