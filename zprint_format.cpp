@@ -63,3 +63,49 @@ void print_list(struct ListNode *head) {
         return print_list(head->next);
     }
 }
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+TreeNode *create_tree(vector<int> nums) {
+    if (nums.empty()) {
+        return nullptr;
+    }
+    TreeNode *root = new TreeNode(nums[0]);
+    nums.erase(nums.begin());
+    if (nums.empty()) {
+        return root;
+    }
+    root->left = create_tree(nums);
+    nums.erase(nums.begin());
+    if (nums.empty()) {
+        return root;
+    }
+    root->right = create_tree(nums);
+    return root;
+}
+void print_tree_format(TreeNode *tree) {
+    cout << "[  ";
+    print_tree(tree);
+    cout << "\b\b  ]" << endl;
+}
+void print_tree(TreeNode *tree) {
+    if (!tree) {
+        return;
+    }
+    print_tree(tree->left);
+    cout << tree->val << ", ";
+    print_tree(tree->left);
+}
+
+void destroy_tree(TreeNode *tree) {
+    if (!tree) {
+        return;
+    }
+    destroy_tree(tree->left);
+    destroy_tree(tree->right);
+    delete tree;
+    tree = nullptr;
+}
