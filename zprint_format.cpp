@@ -3,11 +3,11 @@
 using namespace std;
 
 void print_ret(vector<int> ret) {
-    cout << "  [";
+    cout << "[  ";
     for (auto i : ret) {
         cout << i << ", ";
     }
-    cout << "\b\b]" << endl;
+    cout << "\b\b  ]" << endl;
 }
 
 void print_ret(vector<vector<int>> ret) {
