@@ -69,8 +69,23 @@ struct TreeNode {
     TreeNode *right;
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 };
+
+void print_tree(TreeNode *&tree) {
+    if (!tree) {
+        cout << "0, ";
+        return;
+    }
+    cout << tree->val << ", ";
+    print_tree(tree->left);    
+    print_tree(tree->right);
+}
+void print_tree_format(TreeNode *&tree) {
+    cout << "[  ";
+    print_tree(tree);
+    cout << "\b\b  ]" << endl;
+}
 TreeNode *create_tree(vector<int> nums) {
-    if (nums.empty()) {
+    if (nums.empty() || nums.front() == -1) {
         return nullptr;
     }
     TreeNode *root = new TreeNode(nums[0]);
@@ -86,20 +101,6 @@ TreeNode *create_tree(vector<int> nums) {
     root->right = create_tree(nums);
     return root;
 }
-void print_tree_format(TreeNode *tree) {
-    cout << "[  ";
-    print_tree(tree);
-    cout << "\b\b  ]" << endl;
-}
-void print_tree(TreeNode *tree) {
-    if (!tree) {
-        return;
-    }
-    print_tree(tree->left);
-    cout << tree->val << ", ";
-    print_tree(tree->left);
-}
-
 void destroy_tree(TreeNode *&tree) {
     if (!tree) {
         return;
