@@ -100,7 +100,7 @@ void print_tree(TreeNode *tree) {
     print_tree(tree->left);
 }
 
-void destroy_tree(TreeNode *tree) {
+void destroy_tree(TreeNode *&tree) {
     if (!tree) {
         return;
     }
