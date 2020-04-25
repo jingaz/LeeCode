@@ -61,33 +61,24 @@ vector<int> inorderTraversal(TreeNode *root) {
     if (!root) {
         return ret;
     }
-    stack<TreeNode *> st;
-    stack<TreeNode *> cache;
-    st.push(root->right);
-    TreeNode *cache_tmp = new TreeNode(root->val);
-    cache.push(cache_tmp);
-    st.push(cache_tmp);
-    st.push(root->left);
+    stack<pair<TreeNode *, bool>> st;
+    st.push(pair{root->right, false});
+    st.push(pair{root, true});  //true表示子节点已入栈
+    st.push(pair{root->left, false});
     while (!st.empty()) {
-        TreeNode *tmp = st.top();
+        auto it = st.top();
         st.pop();
-        if (!tmp) {
+        if (!it.first) {
             continue;
         }
-        if (!(tmp->left) && !(tmp->right)) {
-            ret.emplace_back(tmp->val);
+        if (it.second) {
+            ret.emplace_back(it.first->val);
             continue;
         }
-        st.push(tmp->right);
-        TreeNode *cache_tmp = new TreeNode(tmp->val);
-        cache.push(cache_tmp);
-        st.push(cache_tmp);
-        st.push(tmp->left);
-    }
-    while(!cache.empty()){
-        TreeNode *cache_tmp = cache.top();
-        cache.pop();
-        delete cache_tmp;
+        it.second = true;
+        st.push(pair{it.first->right, false});
+        st.push(it);
+        st.push(pair{it.first->left, false});
     }
     return ret;
 }
